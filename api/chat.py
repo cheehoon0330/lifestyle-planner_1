@@ -24,7 +24,7 @@ class handler(BaseHTTPRequestHandler):
                 return
 
             payload = json.dumps({
-                'model': 'claude-sonnet-4-20250514',
+                'model': 'claude-sonnet-4-5',
                 'max_tokens': 3000,
                 'messages': [{'role': 'user', 'content': prompt}]
             }).encode('utf-8')
