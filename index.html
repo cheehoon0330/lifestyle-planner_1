@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FORM — AI 라이프스타일 플래너</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0d0d0d; --surface: #141414; --surface2: #1c1c1c;
+    --border: #2a2a2a; --border-active: #4a4a4a;
+    --accent: #c8f04d; --accent-dim: #8ab535;
+    --text: #e8e8e8; --text-muted: #666; --text-dim: #999;
+    --red: #ff4d4d;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; font-weight: 300; min-height: 100vh; overflow-x: hidden; }
+
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 40px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(13,13,13,0.9);
+    backdrop-filter: blur(12px);
+  }
+  .logo { font-family: 'DM Serif Display', serif; font-size: 1.6rem; color: var(--accent); }
+  .logo span { color: var(--text-muted); font-style: italic; }
+  .header-tag { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; }
+
+  .hero { padding: 160px 40px 80px; max-width: 1100px; margin: 0 auto; }
+  .hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 24px; }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem, 6vw, 5rem); line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 20px; }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero p { font-size: 1rem; color: var(--text-dim); max-width: 480px; line-height: 1.7; }
+
+  .main-wrap { max-width: 1100px; margin: 0 auto; padding: 0 40px 120px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 32px; transition: border-color 0.2s; }
+  .card:hover { border-color: var(--border-active); }
+  .card.full-width { grid-column: 1 / -1; }
+
+  .card-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.18em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .card-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .field-group { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field-group.three { grid-template-columns: 1fr 1fr 1fr; }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field label { font-size: 0.72rem; color: var(--text-muted); font-weight: 400; letter-spacing: 0.05em; }
+
+  input, select, textarea {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 2px;
+    color: var(--text); font-family: 'DM Mono', monospace; font-size: 0.85rem;
+    padding: 11px 14px; outline: none; transition: border-color 0.15s, box-shadow 0.15s; width: 100%; appearance: none;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent-dim); box-shadow: 0 0 0 2px rgba(200,240,77,0.08); }
+  textarea { resize: vertical; min-height: 90px; line-height: 1.6; font-family: 'Noto Sans KR', sans-serif; font-size: 0.82rem; }
+  select option { background: #1c1c1c; }
+
+  .pill-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { padding: 6px 14px; border: 1px solid var(--border); border-radius: 100px; font-size: 0.75rem; font-family: 'DM Mono', monospace; color: var(--text-dim); cursor: pointer; transition: all 0.15s; user-select: none; }
+  .pill:hover { border-color: var(--border-active); color: var(--text); }
+  .pill.active { border-color: var(--accent); color: var(--accent); background: rgba(200,240,77,0.06); }
+
+  input[type="range"] { -webkit-appearance: none; background: transparent; border: none; padding: 0; height: 28px; }
+  input[type="range"]::-webkit-slider-track { height: 2px; background: var(--border); border-radius: 1px; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); margin-top: -7px; cursor: pointer; }
+  .slider-labels { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--text-muted); font-family: 'DM Mono', monospace; margin-top: 4px; }
+  .slider-val { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--accent); float: right; }
+
+  .submit-area { grid-column: 1 / -1; display: flex; justify-content: flex-end; align-items: center; gap: 20px; padding-top: 8px; }
+  .submit-note { font-size: 0.72rem; color: var(--text-muted); font-family: 'DM Mono', monospace; }
+  .btn-generate { background: var(--accent); color: #0d0d0d; border: none; border-radius: 2px; padding: 14px 36px; font-family: 'DM Mono', monospace; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em; cursor: pointer; transition: all 0.15s; text-transform: uppercase; }
+  .btn-generate:hover { background: #d4f55a; transform: translateY(-1px); }
+  .btn-generate:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; transform: none; }
+
+  #result-section { max-width: 1100px; margin: 0 auto; padding: 0 40px 120px; display: none; }
+  #result-section.visible { display: block; }
+  .result-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .result-header h2 { font-family: 'DM Serif Display', serif; font-size: 2rem; letter-spacing: -0.02em; }
+  .result-header h2 span { color: var(--accent); }
+  .result-meta { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.1em; }
+
+  .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .result-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 28px; }
+  .result-card.full { grid-column: 1 / -1; }
+  .result-card h3 { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .result-card .content { font-size: 0.88rem; line-height: 1.85; color: var(--text-dim); white-space: pre-wrap; word-break: break-word; }
+  .result-card .content strong { color: var(--text); font-weight: 500; }
+
+  .stat-bar { display: flex; gap: 40px; flex-wrap: wrap; background: rgba(200,240,77,0.04); border: 1px solid rgba(200,240,77,0.2); border-radius: 2px; padding: 20px 28px; margin-bottom: 20px; }
+  .stat { display: flex; flex-direction: column; gap: 4px; }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--text-muted); }
+  .stat-val { font-size: 1.6rem; font-family: 'DM Serif Display', serif; color: var(--accent); }
+  .stat-sub { font-size: 0.72rem; color: var(--text-muted); }
+
+  .loading-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 40px; gap: 20px; }
+  .loader { width: 36px; height: 36px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.12em; animation: pulse 1.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+  .error-box { background: rgba(255,77,77,0.06); border: 1px solid rgba(255,77,77,0.3); border-radius: 2px; padding: 20px 24px; font-size: 0.82rem; color: var(--red); font-family: 'DM Mono', monospace; }
+
+  @media (max-width: 720px) {
+    header { padding: 16px 20px; }
+    .hero { padding: 120px 20px 60px; }
+    .main-wrap, #result-section { padding: 0 20px 80px; }
+    .main-wrap, .result-grid { grid-template-columns: 1fr; }
+    .card.full-width, .result-card.full { grid-column: 1; }
+    .field-group, .field-group.three { grid-template-columns: 1fr; }
+    .submit-area { flex-direction: column; align-items: stretch; }
+    .stat-bar { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">FORM<span>.</span></div>
+  <div class="header-tag">AI Lifestyle Planner</div>
+</header>
+
+<section class="hero">
+  <p class="hero-eyebrow">// Powered by Claude AI</p>
+  <h1>당신의 몸과 루틴,<br><em>데이터로</em> 설계합니다.</h1>
+  <p>신체 정보와 생활습관을 입력하면 AI가 맞춤형 운동·식단·생활루틴 플랜을 즉시 설계해드립니다.</p>
+</section>
+
+<div class="main-wrap" id="form-area">
+  <div class="card">
+    <div class="card-label">01 신체 정보</div>
+    <div class="field-group three" style="margin-bottom:16px">
+      <div class="field"><label>나이 (세)</label><input type="number" id="age" placeholder="23" min="10" max="80"></div>
+      <div class="field"><label>키 (cm)</label><input type="number" id="height" placeholder="175" min="130" max="230"></div>
+      <div class="field"><label>몸무게 (kg)</label><input type="number" id="weight" placeholder="70" min="30" max="200"></div>
+    </div>
+    <div class="field-group">
+      <div class="field"><label>성별</label>
+        <select id="gender"><option value="">선택</option><option>남성</option><option>여성</option></select>
+      </div>
+      <div class="field"><label>체형 인식</label>
+        <select id="body_type"><option value="">선택</option><option>마른 편</option><option>보통</option><option>근육형</option><option>과체중</option></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">02 목표 설정</div>
+    <div class="field" style="margin-bottom:20px"><label>주요 목표 (복수 선택)</label>
+      <div class="pill-group" id="goals-pills" style="margin-top:8px">
+        <span class="pill" data-v="근비대 (근육 증가)">근비대</span>
+        <span class="pill" data-v="체중 감량">체중 감량</span>
+        <span class="pill" data-v="체력 향상">체력 향상</span>
+        <span class="pill" data-v="컨디셔닝">컨디셔닝</span>
+        <span class="pill" data-v="유연성 향상">유연성</span>
+        <span class="pill" data-v="건강 유지">건강 유지</span>
+        <span class="pill" data-v="퍼포먼스 향상">퍼포먼스</span>
+        <span class="pill" data-v="재활/부상 예방">재활/부상 예방</span>
+      </div>
+    </div>
+    <div class="field"><label>목표 기간</label>
+      <select id="goal_period"><option value="">선택</option><option value="4주 단기 집중">4주 단기 집중</option><option value="8주">8주</option><option value="12주 (메조사이클)">12주 (메조사이클)</option><option value="6개월">6개월</option><option value="장기 유지">장기 유지</option></select>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">03 운동 현황</div>
+    <div class="field-group" style="margin-bottom:16px">
+      <div class="field"><label>운동 경력</label>
+        <select id="exp_level"><option value="">선택</option><option value="비기너 (0~6개월)">비기너 (0~6개월)</option><option value="인터미디어트 (6개월~2년)">인터미디어트</option><option value="어드밴스드 (2년 이상)">어드밴스드 (2년+)</option></select>
+      </div>
+      <div class="field"><label>주당 운동 가능 일수</label>
+        <select id="days_pw"><option value="">선택</option><option>2일</option><option>3일</option><option>4일</option><option>5일</option><option>6일</option></select>
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:16px"><label>선호 운동 종류 (복수 선택)</label>
+      <div class="pill-group" id="sports-pills" style="margin-top:8px">
+        <span class="pill" data-v="웨이트 트레이닝">웨이트</span>
+        <span class="pill" data-v="유산소 (러닝/사이클)">유산소</span>
+        <span class="pill" data-v="HIIT">HIIT</span>
+        <span class="pill" data-v="수영">수영</span>
+        <span class="pill" data-v="구기 종목">구기 종목</span>
+        <span class="pill" data-v="요가/필라테스">요가/필라테스</span>
+        <span class="pill" data-v="격투기/무술">격투기</span>
+      </div>
+    </div>
+    <div class="field"><label>부상 또는 통증 부위</label>
+      <input type="text" id="injury" placeholder="예: 오른쪽 무릎 통증 (없으면 공란)">
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">04 생활 & 식습관</div>
+    <div class="field-group" style="margin-bottom:16px">
+      <div class="field"><label>일상 활동량</label>
+        <select id="activity"><option value="">선택</option><option value="좌식 직업">좌식 직업</option><option value="가벼운 활동">가벼운 활동</option><option value="중등도 활동">중등도 활동</option><option value="고강도 활동">고강도 활동</option><option value="학생 (수업+이동)">학생</option></select>
+      </div>
+      <div class="field"><label>평균 수면 시간</label>
+        <select id="sleep"><option value="">선택</option><option>5시간 미만</option><option>5~6시간</option><option>6~7시간</option><option>7~8시간</option><option>8시간 이상</option></select>
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:16px"><label>식사 패턴</label>
+      <select id="meal_pat"><option value="">선택</option><option value="하루 1~2끼">하루 1~2끼</option><option value="하루 3끼">하루 3끼</option><option value="4~5끼 소분">4~5끼 소분</option><option value="불규칙">불규칙</option></select>
+    </div>
+    <div class="field" style="margin-bottom:16px"><label>식이 제한 / 알레르기</label>
+      <div class="pill-group" id="diet-pills" style="margin-top:8px">
+        <span class="pill" data-v="없음">없음</span>
+        <span class="pill" data-v="유제품 제한">유제품 제한</span>
+        <span class="pill" data-v="채식">채식</span>
+        <span class="pill" data-v="비건">비건</span>
+        <span class="pill" data-v="글루텐 프리">글루텐 프리</span>
+        <span class="pill" data-v="해산물 알레르기">해산물 알레르기</span>
+      </div>
+    </div>
+    <div class="field"><label>스트레스 수준</label>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span style="font-size:0.72rem;color:var(--text-muted)">스트레스</span>
+        <span class="slider-val" id="stress-val">5</span>
+      </div>
+      <input type="range" id="stress" min="1" max="10" value="5" step="1">
+      <div class="slider-labels"><span>낮음 (1)</span><span>보통 (5)</span><span>높음 (10)</span></div>
+    </div>
+  </div>
+
+  <div class="card full-width">
+    <div class="card-label">05 추가 정보 (선택)</div>
+    <div class="field">
+      <label>특이사항, 생활 패턴, 하고 싶은 말 등</label>
+      <textarea id="extra" placeholder="예: 군 전역 후 복학해서 체력 회복이 시급. 오후 6시 이후 운동 가능. 단백질 보충제 복용 중."></textarea>
+    </div>
+  </div>
+
+  <div class="submit-area">
+    <span class="submit-note">// Claude AI가 개인화 플랜을 생성합니다</span>
+    <button class="btn-generate" id="gen-btn" onclick="generatePlan()">플랜 생성하기 →</button>
+  </div>
+</div>
+
+<section id="result-section">
+  <div class="result-header">
+    <h2>당신의 <span>맞춤 플랜</span></h2>
+    <span class="result-meta" id="result-timestamp"></span>
+  </div>
+  <div id="result-content"></div>
+  <div style="display:flex;justify-content:flex-end;margin-top:28px">
+    <button class="btn-generate" onclick="resetForm()" style="background:transparent;border:1px solid var(--border);color:var(--text-dim);">← 다시 입력하기</button>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.pill').forEach(p => {
+    p.addEventListener('click', () => p.classList.toggle('active'));
+  });
+
+  document.getElementById('stress').addEventListener('input', function() {
+    document.getElementById('stress-val').textContent = this.value;
+  });
+
+  function getPills(id) {
+    const active = [...document.querySelectorAll(`#${id} .pill.active`)].map(p => p.dataset.v);
+    return active.length ? active.join(', ') : '미선택';
+  }
+
+  function formatNow() {
+    const d = new Date();
+    return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+  }
+
+  async function generatePlan() {
+    const age = document.getElementById('age').value;
+    const height = document.getElementById('height').value;
+    const weight = document.getElementById('weight').value;
+    const gender = document.getElementById('gender').value;
+
+    if (!age || !height || !weight || !gender) {
+      alert('나이, 키, 몸무게, 성별은 필수 입력입니다.');
+      return;
+    }
+
+    const bmiRaw = weight / Math.pow(height / 100, 2);
+    const bmi = bmiRaw.toFixed(1);
+    const bmiCat = bmiRaw < 18.5 ? '저체중' : bmiRaw < 23 ? '정상' : bmiRaw < 25 ? '과체중' : '비만';
+
+    const d = {
+      age, height, weight, gender,
+      body_type: document.getElementById('body_type').value || '미입력',
+      goals: getPills('goals-pills'),
+      goal_period: document.getElementById('goal_period').value || '미지정',
+      exp: document.getElementById('exp_level').value || '미입력',
+      days: document.getElementById('days_pw').value || '미입력',
+      sports: getPills('sports-pills'),
+      injury: document.getElementById('injury').value || '없음',
+      activity: document.getElementById('activity').value || '미입력',
+      sleep: document.getElementById('sleep').value || '미입력',
+      meal: document.getElementById('meal_pat').value || '미입력',
+      diet: getPills('diet-pills'),
+      stress: document.getElementById('stress').value,
+      extra: document.getElementById('extra').value || '없음'
+    };
+
+    const prompt = `당신은 스포츠 과학과 영양학 전문가입니다. 아래 사용자 데이터를 바탕으로 철저하게 개인화된 라이프스타일 플랜을 작성하세요.
+
+【사용자 정보】
+나이: ${d.age}세 | 성별: ${d.gender} | 키: ${d.height}cm | 몸무게: ${d.weight}kg | BMI: ${bmi} (${bmiCat}) | 체형: ${d.body_type}
+주요 목표: ${d.goals} | 목표 기간: ${d.goal_period}
+운동 경력: ${d.exp} | 주당 운동 가능 일수: ${d.days} | 선호 운동: ${d.sports}
+부상/통증: ${d.injury}
+일상 활동량: ${d.activity} | 평균 수면: ${d.sleep}
+식사 패턴: ${d.meal} | 식이 제한: ${d.diet}
+스트레스 수준: ${d.stress}/10
+추가 정보: ${d.extra}
+
+아래 4개 섹션으로 나누어 작성하세요. 각 섹션은 "===섹션명===" 형식으로 구분하세요.
+
+===운동 프로그램===
+주간 운동 스케줄(요일별), 각 세션의 종목/세트/반복수/휴식시간, 부상 고려사항 포함.
+
+===식단 플랜===
+하루 권장 칼로리와 PFC 비율(g 단위), 끼니별 식단 예시(구체적 음식명과 양), 식이 제한 반영, 수분 섭취 가이드.
+
+===생활습관 루틴===
+기상~취침 일일 루틴(시간대별), 수면 최적화, 스트레스 관리, 회복 전략.
+
+===핵심 분석 & 조언===
+현재 가장 시급한 개선 포인트(데이터 기반), 4주/8주/12주 단계별 목표, 주의해야 할 리스크, 진척도 체크 방법.
+
+각 항목은 실용적이고 구체적으로, 일반론 없이 위 사용자 데이터에 완전히 맞춰 작성하세요.`;
+
+    const btn = document.getElementById('gen-btn');
+    btn.disabled = true;
+    document.getElementById('result-section').className = 'visible';
+    document.getElementById('result-timestamp').textContent = formatNow() + ' 생성';
+    document.getElementById('result-content').innerHTML = `<div class="loading-wrap"><div class="loader"></div><div class="loading-text">Claude AI가 플랜을 분석 중입니다...</div></div>`;
+    document.getElementById('result-section').scrollIntoView({ behavior: 'smooth' });
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || '오류 발생');
+      renderResult(data.result, bmi, bmiCat, d);
+    } catch (err) {
+      document.getElementById('result-content').innerHTML = `<div class="error-box">오류: ${err.message}</div>`;
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  function renderResult(raw, bmi, bmiCat, d) {
+    const secs = {};
+    const matches = [...raw.matchAll(/===(.+?)===\n([\s\S]*?)(?====|$)/g)];
+    matches.forEach(m => { secs[m[1].trim()] = m[2].trim(); });
+
+    const stressColor = d.stress >= 7 ? '#ff4d4d' : d.stress >= 5 ? '#f0c44d' : '#c8f04d';
+
+    const statsHtml = `<div class="stat-bar">
+      <div class="stat"><span class="stat-label">BMI</span><span class="stat-val">${bmi}</span><span class="stat-sub">${bmiCat}</span></div>
+      <div class="stat"><span class="stat-label">목표</span><span style="font-size:0.9rem;color:var(--text);max-width:200px;line-height:1.5">${d.goals}</span></div>
+      <div class="stat"><span class="stat-label">운동 경력</span><span style="font-size:0.9rem;color:var(--text)">${d.exp}</span></div>
+      <div class="stat"><span class="stat-label">스트레스</span><span class="stat-val" style="color:${stressColor}">${d.stress}<span style="font-size:0.8rem;color:var(--text-muted)">/10</span></span></div>
+    </div>`;
+
+    const keys = ['운동 프로그램', '식단 플랜', '생활습관 루틴', '핵심 분석 & 조언'];
+    let gridHtml = '<div class="result-grid">';
+    if (Object.keys(secs).length === 0) {
+      gridHtml += `<div class="result-card full"><h3>AI 플랜</h3><div class="content">${esc(raw)}</div></div>`;
+    } else {
+      keys.forEach(k => {
+        if (secs[k]) gridHtml += `<div class="result-card"><h3>${k}</h3><div class="content">${fmt(secs[k])}</div></div>`;
+      });
+    }
+    gridHtml += '</div>';
+    document.getElementById('result-content').innerHTML = statsHtml + gridHtml;
+  }
+
+  function fmt(text) {
+    return esc(text).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/^[-•]\s/gm, '▸ ');
+  }
+  function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function resetForm() {
+    document.getElementById('result-section').className = '';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
