@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LIFEFORM — 삶의 형태를 설계한다</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -15,7 +16,7 @@
   --red: #ff3b3b;
 }
 html { scroll-behavior: smooth; }
-body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; font-weight: 300; overflow-x: hidden; }
+body { background: var(--bg); color: var(--text); font-family: 'Pretendard', -apple-system, sans-serif; font-weight: 300; overflow-x: hidden; }
 
 /* NAV */
 nav {
@@ -62,12 +63,14 @@ nav {
 }
 .hero-tag::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
 .hero h1 {
-  font-family: 'Cormorant Garamond', serif; font-size: clamp(52px, 6vw, 96px);
+  font-family: 'Playfair Display', serif; font-size: clamp(52px, 6vw, 96px);
   font-weight: 300; line-height: 1.0; letter-spacing: -0.01em;
   margin-bottom: 24px; color: var(--text);
 }
 .hero h1 em { font-style: italic; color: var(--accent); }
-.hero-desc { font-size: 0.9rem; color: var(--text2); line-height: 1.85; max-width: 340px; margin-bottom: 40px; }
+.hero-desc { font-size: 0.9rem; color: var(--text2); line-height: 1.85; max-width: 340px; margin-bottom: 20px; }
+.hero-credit { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; color: var(--text4); margin-bottom: 40px; }
+.hero-credit em { font-style: normal; color: var(--accent); letter-spacing: 0.08em; }
 .hero-actions { display: flex; gap: 12px; }
 .btn-primary {
   font-family: 'DM Mono', monospace; font-size: 0.7rem;
@@ -109,7 +112,7 @@ nav {
 .editorial-img-cap { position: absolute; bottom: 24px; left: 24px; font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; color: rgba(255,255,255,0.5); text-transform: uppercase; }
 .editorial-text { padding: 72px 60px; display: flex; flex-direction: column; justify-content: center; border-left: 1px solid var(--border); }
 .editorial-issue { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; color: var(--text4); text-transform: uppercase; margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; }
-.editorial-text h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 4vw, 60px); font-weight: 300; line-height: 1.1; margin-bottom: 28px; }
+.editorial-text h2 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 4vw, 60px); font-weight: 300; line-height: 1.1; margin-bottom: 28px; }
 .editorial-text h2 em { font-style: italic; color: var(--accent); }
 .editorial-text p { font-size: 0.9rem; color: var(--text2); line-height: 1.9; margin-bottom: 40px; max-width: 400px; }
 
@@ -117,7 +120,7 @@ nav {
 .features { padding: 100px 48px; border-bottom: 1px solid var(--border); }
 .feat-header { display: grid; grid-template-columns: 1fr 2fr; gap: 48px; margin-bottom: 64px; padding-bottom: 32px; border-bottom: 1px solid var(--border); align-items: end; }
 .feat-header-left { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.16em; color: var(--text4); text-transform: uppercase; line-height: 2; }
-.feat-header-right h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 4vw, 52px); font-weight: 300; line-height: 1.1; }
+.feat-header-right h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 52px); font-weight: 300; line-height: 1.1; }
 .feat-header-right h2 em { font-style: italic; color: var(--accent); }
 .feat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); }
 .feat-card { background: var(--bg); padding: 36px 32px; position: relative; overflow: hidden; transition: background 0.3s; }
@@ -126,7 +129,7 @@ nav {
 .feat-card:hover::after { transform: scaleX(1); }
 .feat-num { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--text4); letter-spacing: 0.1em; margin-bottom: 28px; }
 .feat-emoji { font-size: 1.6rem; display: block; margin-bottom: 16px; }
-.feat-title { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 600; color: var(--text); margin-bottom: 10px; }
+.feat-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 600; color: var(--text); margin-bottom: 10px; }
 .feat-desc { font-size: 0.82rem; color: var(--text3); line-height: 1.8; }
 
 /* PHOTO STRIP */
@@ -141,54 +144,57 @@ nav {
 .how-img { position: relative; overflow: hidden; border-right: 1px solid var(--border); }
 .how-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%) brightness(0.7); }
 .how-img-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,10,0.6) 0%, transparent 60%); }
-.how-img-text { position: absolute; bottom: 40px; left: 40px; font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-style: italic; font-weight: 300; color: rgba(255,255,255,0.7); max-width: 280px; line-height: 1.3; }
+.how-img-text { position: absolute; bottom: 40px; left: 40px; font-family: 'Playfair Display', serif; font-size: 1.8rem; font-style: italic; font-weight: 300; color: rgba(255,255,255,0.7); max-width: 280px; line-height: 1.3; }
 .how-content { padding: 72px 60px; }
 .eyebrow { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; color: var(--text4); text-transform: uppercase; margin-bottom: 24px; }
-.how-content h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 3.5vw, 48px); font-weight: 300; line-height: 1.1; margin-bottom: 48px; }
+.how-content h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 3.5vw, 48px); font-weight: 300; line-height: 1.1; margin-bottom: 48px; }
 .how-content h2 em { font-style: italic; color: var(--accent); }
 .steps { display: flex; flex-direction: column; }
 .step { display: flex; gap: 24px; padding: 24px 0; border-bottom: 1px solid var(--border); transition: padding-left 0.2s; }
 .step:hover { padding-left: 8px; }
 .step-n { font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem; color: var(--accent); line-height: 1; min-width: 36px; }
-.step h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+.step h4 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 600; color: var(--text); margin-bottom: 5px; }
 .step p { font-size: 0.82rem; color: var(--text3); line-height: 1.75; }
 
 /* PLANNER */
 .planner-section { padding: 100px 48px; border-bottom: 1px solid var(--border); }
 .planner-top { display: grid; grid-template-columns: 1fr 2fr; gap: 60px; margin-bottom: 56px; padding-bottom: 40px; border-bottom: 1px solid var(--border); align-items: end; }
 .planner-top-left { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.16em; color: var(--text4); text-transform: uppercase; line-height: 2; }
-.planner-top-right h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 4vw, 52px); font-weight: 300; line-height: 1.1; margin-bottom: 10px; }
+.planner-top-right h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 52px); font-weight: 300; line-height: 1.1; margin-bottom: 10px; }
 .planner-top-right h2 em { font-style: italic; color: var(--accent); }
 .planner-top-right p { font-size: 0.85rem; color: var(--text3); }
 
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-bottom: 1px; }
 .form-card { background: var(--bg); padding: 32px; }
 .form-card.full { grid-column: 1 / -1; }
-.form-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.18em; color: var(--text4); text-transform: uppercase; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-.form-label-num { color: var(--accent); font-size: 0.7rem; }
+.form-label { font-family: 'Pretendard', -apple-system, sans-serif; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.02em; color: var(--text2); margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.form-label-num { color: var(--accent); font-family: 'DM Mono', monospace; font-size: 0.7rem; }
 .fg { display: grid; gap: 12px; margin-bottom: 12px; }
 .fg2 { grid-template-columns: 1fr 1fr; }
 .fg3 { grid-template-columns: 1fr 1fr 1fr; }
 .field { display: flex; flex-direction: column; gap: 6px; }
-.field label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: var(--text4); text-transform: uppercase; }
+.field label { font-family: 'Pretendard', -apple-system, sans-serif; font-size: 0.78rem; font-weight: 400; color: var(--text3); }
 input[type="number"], input[type="text"], select, textarea {
   background: var(--bg2); border: 1px solid var(--border2); color: var(--text);
-  font-family: 'DM Mono', monospace; font-size: 0.82rem; padding: 10px 13px;
+  font-family: 'Pretendard', -apple-system, sans-serif; font-size: 0.92rem; font-weight: 300; padding: 11px 14px;
   outline: none; transition: border-color 0.15s; width: 100%; appearance: none; border-radius: 0;
 }
 input:focus, select:focus, textarea:focus { border-color: var(--accent); }
 select option { background: #111; }
-textarea { resize: vertical; min-height: 80px; font-family: 'Noto Sans KR', sans-serif; font-size: 0.82rem; line-height: 1.6; }
+textarea { resize: vertical; min-height: 80px; font-size: 0.88rem; line-height: 1.6; }
 .pill-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-.pill { padding: 5px 12px; border: 1px solid var(--border2); font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--text3); cursor: pointer; transition: all 0.12s; user-select: none; }
+.pill { padding: 6px 14px; border: 1px solid var(--border2); font-family: 'Pretendard', -apple-system, sans-serif; font-size: 0.78rem; font-weight: 300; color: var(--text3); cursor: pointer; transition: all 0.12s; user-select: none; }
 .pill:hover { border-color: var(--text3); color: var(--text2); }
-.pill.on { background: var(--accent); border-color: var(--accent); color: var(--bg); }
-.slider-row { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
-.s-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--text4); min-width: 26px; }
-input[type="range"] { flex: 1; -webkit-appearance: none; background: transparent; border: none; padding: 0; height: 20px; }
-input[type="range"]::-webkit-slider-track { height: 1px; background: var(--border2); }
-input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 0; background: var(--accent); border: none; margin-top: -6px; cursor: pointer; }
-.s-val { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--accent); min-width: 24px; text-align: center; line-height: 1; }
+.pill.on { background: var(--accent); border-color: var(--accent); color: var(--bg); font-weight: 500; }
+.slider-row { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+.s-label { font-family: 'Pretendard', sans-serif; font-size: 0.72rem; color: var(--text3); min-width: 28px; }
+input[type="range"] { flex: 1; -webkit-appearance: none; background: transparent; border: none; padding: 0; height: 24px; cursor: pointer; }
+input[type="range"]::-webkit-slider-runnable-track { height: 4px; background: var(--border2); border-radius: 2px; }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); border: 3px solid var(--bg); box-shadow: 0 0 0 2px var(--accent2); margin-top: -9px; cursor: pointer; transition: transform 0.15s; }
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+input[type="range"]::-moz-range-track { height: 4px; background: var(--border2); border-radius: 2px; }
+input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); border: 3px solid var(--bg); cursor: pointer; }
+.s-val { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--accent); min-width: 32px; text-align: center; line-height: 1; }
 .submit-bar { background: var(--bg2); border: 1px solid var(--border); border-top: none; padding: 24px 32px; display: flex; align-items: center; justify-content: space-between; }
 .submit-note { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--text4); letter-spacing: 0.08em; }
 .btn-submit { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bg); background: var(--accent); border: none; padding: 14px 40px; cursor: pointer; transition: all 0.15s; }
@@ -199,7 +205,7 @@ input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14p
 #result-section { display: none; padding: 80px 48px 100px; border-top: 1px solid var(--border); }
 #result-section.show { display: block; }
 .result-masthead { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 48px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
-.result-masthead h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 5vw, 72px); font-weight: 300; line-height: 1; }
+.result-masthead h2 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 72px); font-weight: 300; line-height: 1; }
 .result-masthead h2 em { font-style: italic; color: var(--accent); }
 .result-time { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--text4); letter-spacing: 0.1em; }
 .bmi-strip { display: flex; border: 1px solid var(--border); margin-bottom: 1px; }
@@ -284,6 +290,7 @@ footer { border-top: 1px solid var(--border); padding: 0 48px; }
     <p class="hero-tag">삶의 형태를 설계한다</p>
     <h1>당신의 몸,<br><em>데이터로</em><br>설계됩니다.</h1>
     <p class="hero-desc">신체 정보와 생활습관을 입력하면 운동 프로그램, 식단, 수면 루틴, 편의점 식품 추천까지 즉시 설계해드립니다.</p>
+    <p class="hero-credit">Designed &amp; Built by <em>Cheehoon Choi</em></p>
     <div class="hero-actions">
       <a href="#planner" class="btn-primary">플랜 설계 시작</a>
       <a href="#how" class="btn-ghost">사용법 보기</a>
@@ -395,7 +402,7 @@ footer { border-top: 1px solid var(--border); padding: 0 48px; }
       </div>
       <div class="form-card">
         <div class="form-label"><span>운동 현황</span><span class="form-label-num">03</span></div>
-        <div class="fg fg2" style="margin-bottom:12px"><div class="field"><label>운동 경력</label><select id="exp_level"><option value="">선택</option><option value="비기너 (0~6개월)">비기너</option><option value="인터미디어트 (6개월~2년)">인터미디어트</option><option value="어드밴스드 (2년 이상)">어드밴스드</option></select></div><div class="field"><label>주당 운동 가능 일수</label><select id="days_pw"><option value="">선택</option><option>2일</option><option>3일</option><option>4일</option><option>5일</option><option>6일</option></select></div></div>
+        <div class="fg fg2" style="margin-bottom:12px"><div class="field"><label>운동 경력</label><select id="exp_level"><option value="">선택</option><option value="비기너 (0~6개월)">비기너 (0~6개월)</option><option value="인터미디어트 (6개월~2년)">인터미디어트 (6개월~2년)</option><option value="어드밴스드 (2년 이상)">어드밴스드 (2년 이상)</option></select></div><div class="field"><label>주당 운동 가능 일수</label><select id="days_pw"><option value="">선택</option><option>2일</option><option>3일</option><option>4일</option><option>5일</option><option>6일</option></select></div></div>
         <div class="field" style="margin-bottom:12px"><label>선호 운동</label><div class="pill-wrap" id="sports-pills"><span class="pill" data-v="웨이트 트레이닝">웨이트</span><span class="pill" data-v="유산소 (러닝/사이클)">유산소</span><span class="pill" data-v="HIIT">HIIT</span><span class="pill" data-v="수영">수영</span><span class="pill" data-v="구기 종목">구기 종목</span><span class="pill" data-v="요가/필라테스">요가/필라테스</span><span class="pill" data-v="격투기/무술">격투기</span></div></div>
         <div class="field"><label>부상 또는 통증 부위</label><input type="text" id="injury" placeholder="없으면 공란"></div>
       </div>
