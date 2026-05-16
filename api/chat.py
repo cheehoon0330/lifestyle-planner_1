@@ -18,32 +18,36 @@ class handler(BaseHTTPRequestHandler):
             body = json.loads(self.rfile.read(length))
             prompt = body.get('prompt', '')
 
-            api_key = os.environ.get('GEMINI_API_KEY', '')
+            api_key = os.environ.get('ANTHROPIC_API_KEY', '')
             if not api_key:
                 self._respond(500, {'error': 'API key not configured'})
                 return
 
             payload = json.dumps({
-                'contents': [{'parts': [{'text': prompt}]}],
-                'generationConfig': {'maxOutputTokens': 3000}
+                'model': 'claude-sonnet-4-20250514',
+                'max_tokens': 3000,
+                'messages': [{'role': 'user', 'content': prompt}]
             }).encode('utf-8')
 
-            url = f'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}'
             req = urllib.request.Request(
-                url,
+                'https://api.anthropic.com/v1/messages',
                 data=payload,
-                headers={'Content-Type': 'application/json'},
+                headers={
+                    'Content-Type': 'application/json',
+                    'x-api-key': api_key,
+                    'anthropic-version': '2023-06-01'
+                },
                 method='POST'
             )
 
             with urllib.request.urlopen(req) as res:
                 data = json.loads(res.read().decode('utf-8'))
-                text = data['candidates'][0]['content']['parts'][0]['text']
+                text = data['content'][0]['text']
                 self._respond(200, {'result': text})
 
         except urllib.error.HTTPError as e:
             err = json.loads(e.read().decode('utf-8'))
-            self._respond(e.code, {'error': str(err)})
+            self._respond(e.code, {'error': err.get('error', {}).get('message', str(e))})
         except Exception as e:
             self._respond(500, {'error': str(e)})
 
@@ -53,4 +57,3 @@ class handler(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
         self.wfile.write(json.dumps(data).encode('utf-8'))
-
