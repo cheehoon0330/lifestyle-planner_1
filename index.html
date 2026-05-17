@@ -214,10 +214,10 @@ input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; border-radius
 .bmi-cell-label { font-family: 'Pretendard', -apple-system, sans-serif; font-size: 0.58rem; color: var(--text4); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
 .bmi-cell-val { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--accent); line-height: 1; }
 .bmi-cell-sub { font-size: 0.72rem; color: var(--text3); margin-top: 2px; }
-.result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+.result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); overflow: hidden; }
 .r-card { background: var(--bg); padding: 32px; }
-.r-card.full { grid-column: 1 / -1; }
-.r-card.cvs { background: var(--bg2); border-left: 2px solid var(--accent); }
+.r-card.full { grid-column: 1 / -1 !important; width: 100%; }
+.r-card.cvs { background: var(--bg2); border-left: 2px solid var(--accent); grid-column: 1 / -1 !important; width: 100%; }
 .r-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
 .r-card-emoji { font-size: 1.4rem; line-height: 1; }
 .r-card h3 { font-family: 'Pretendard', -apple-system, sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; color: var(--accent); text-transform: uppercase; margin: 0; }
@@ -250,26 +250,42 @@ footer { border-top: 1px solid var(--border); padding: 0 48px; }
   .hero, .editorial, .how { grid-template-columns: 1fr; }
   .hero { height: auto; min-height: 100vh; }
   .hero-right { height: 50vh; }
-  .hero-left { padding: 40px 24px; }
+  .hero-left { padding: 40px 20px; }
   .editorial-img { height: 50vh; }
-  .editorial-text { padding: 48px 24px; border-left: none; border-top: 1px solid var(--border); }
-  .features, .planner-section { padding: 60px 24px; }
+  .editorial-text { padding: 40px 20px; border-left: none; border-top: 1px solid var(--border); }
+  .features, .planner-section { padding: 48px 20px; }
   .feat-header, .planner-top { grid-template-columns: 1fr; gap: 16px; }
   .feat-grid { grid-template-columns: 1fr; }
   .photo-strip { grid-template-columns: 1fr; height: auto; }
-  .ps-item { height: 240px; }
-  .how-img { height: 50vh; }
-  .how-content { padding: 48px 24px; }
-  .form-grid, .result-grid { grid-template-columns: 1fr; }
-  .form-card.full, .r-card.full { grid-column: 1; }
+  .ps-item { height: 200px; }
+  .how-img { height: 40vh; }
+  .how-content { padding: 40px 20px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-card.full { grid-column: 1; }
+  .result-grid { grid-template-columns: 1fr !important; }
+  .r-card { grid-column: 1 !important; }
+  .r-card.full, .r-card.cvs { grid-column: 1 !important; width: 100%; }
   .fg2, .fg3 { grid-template-columns: 1fr; }
   .submit-bar { flex-direction: column; gap: 14px; align-items: flex-start; }
   .btn-submit { width: 100%; text-align: center; }
-  footer { padding: 0 24px; }
+  footer { padding: 0 20px; }
   .footer-top { grid-template-columns: 1fr; text-align: center; }
   .footer-logo-big { grid-column: 1; }
-  #result-section { padding: 48px 24px 80px; }
+  #result-section { padding: 40px 20px 80px; }
   .bmi-strip { flex-wrap: wrap; }
+  .bmi-cell { min-width: 45%; flex: 1 1 45%; }
+  .r-card-header { gap: 8px; }
+  .r-card-emoji { font-size: 1.2rem; }
+  .sec-head { font-size: 0.85rem; padding: 5px 10px; }
+  .r-card .body { font-size: 0.84rem; line-height: 1.8; }
+  .hero h1 { font-size: clamp(42px, 10vw, 72px); }
+  .planner-top-right h2 { font-size: clamp(24px, 6vw, 40px); }
+  .how-content h2 { font-size: clamp(24px, 6vw, 40px); }
+  .editorial-text h2 { font-size: clamp(28px, 7vw, 44px); }
+  .feat-header-right h2 { font-size: clamp(24px, 6vw, 40px); }
+  .ticker-item { font-size: 0.78rem; padding: 0 20px; }
+  .r-card { padding: 20px; }
+  .form-card { padding: 20px; }
 }
 </style>
 </head>
@@ -293,7 +309,7 @@ footer { border-top: 1px solid var(--border); padding: 0 48px; }
   <div class="hero-left">
     <p class="hero-tag">삶의 형태를 설계한다</p>
     <h1>당신의 몸,<br><em>데이터로</em><br>설계됩니다.</h1>
-    <p class="hero-desc">신체 정보와 생활습관을 입력하면 운동 프로그램, 식단, 수면 루틴, 편의점 식품 추천까지 즉시 설계해드립니다.</p>
+    <p class="hero-desc">신체 정보와 생활습관을 입력하면 운동 프로그램, 식단, 수면 루틴, 편의점 추천, 뷰티 케어까지 즉시 설계해드립니다.</p>
     <p class="hero-credit">Designed &amp; Built by <em>Cheehoon Choi</em></p>
     <div class="hero-actions">
       <a href="#planner" class="btn-primary">플랜 설계 시작</a>
@@ -302,7 +318,7 @@ footer { border-top: 1px solid var(--border); padding: 0 48px; }
   </div>
   <div class="hero-right">
     <div class="hero-right-overlay"></div>
-    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&q=80" alt="운동" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1400&q=80" alt="운동" loading="lazy">
   </div>
   <div class="hero-scroll">
     <div class="hero-scroll-line"></div>
@@ -318,6 +334,7 @@ footer { border-top: 1px solid var(--border); padding: 0 48px; }
     <span class="ticker-item"><span>✦</span>수면 최적화</span>
     <span class="ticker-item"><span>✦</span>편의점 식품 추천</span>
     <span class="ticker-item"><span>✦</span>단계별 목표 분석</span>
+    <span class="ticker-item"><span>✦</span>뷰티 & 피부케어</span>
     <span class="ticker-item"><span>✦</span>LIFEFORM</span>
     <span class="ticker-item"><span>✦</span>운동 프로그램</span>
     <span class="ticker-item"><span>✦</span>영양 & 식단</span>
@@ -347,7 +364,7 @@ footer { border-top: 1px solid var(--border); padding: 0 48px; }
 
 <section class="features" id="features">
   <div class="feat-header">
-    <div class="feat-header-left">// 핵심 기능<br><br>총 6개 섹션으로<br>구성된 완전한<br>라이프스타일 플랜</div>
+    <div class="feat-header-left">// 핵심 기능<br><br>총 7개 섹션으로<br>구성된 완전한<br>라이프스타일 플랜</div>
     <div class="feat-header-right"><h2>무엇을<br><em>설계하나요</em></h2></div>
   </div>
   <div class="feat-grid">
@@ -357,6 +374,7 @@ footer { border-top: 1px solid var(--border); padding: 0 48px; }
     <div class="feat-card"><div class="feat-num">04 —</div><span class="feat-emoji">🌙</span><div class="feat-title">수면 최적화</div><p class="feat-desc">현재 수면 패턴 분석과 회복력을 극대화하는 취침·기상 루틴 및 수면의 질 개선.</p></div>
     <div class="feat-card"><div class="feat-num">05 —</div><span class="feat-emoji">📊</span><div class="feat-title">단계별 목표 분석</div><p class="feat-desc">4주·8주·12주 단계별 목표 설정. 데이터 기반 시급 개선 포인트와 리스크 진단.</p></div>
     <div class="feat-card"><div class="feat-num">06 —</div><span class="feat-emoji">🏪</span><div class="feat-title">편의점 식품 추천</div><p class="feat-desc">CU·GS25·세븐일레븐 최적 식품 조합. 아침·간식·운동 전후별 상세 추천.</p></div>
+    <div class="feat-card" style="grid-column:1/-1;text-align:center;padding:40px;"><div class="feat-num" style="text-align:center">07 —</div><span class="feat-emoji">✨</span><div class="feat-title">뷰티 & 피부 케어</div><p class="feat-desc" style="max-width:500px;margin:0 auto">올리브영 구매 가능 제품 중심 스킨케어 루틴 설계. 피부 타입별 추천 성분·브랜드·제품명까지 구체적으로.</p></div>
   </div>
 </section>
 
@@ -370,7 +388,7 @@ footer { border-top: 1px solid var(--border); padding: 0 48px; }
   <div class="how-img">
     <img src="https://images.unsplash.com/photo-1594911772125-07fc7a2d8d9f?w=800&q=80" alt="라이프스타일" loading="lazy">
     <div class="how-img-overlay"></div>
-    <div class="how-img-text">"루틴이 곧 결과다."</div>
+    <div class="how-img-text">"루틴이 곧<br>결과다."</div>
   </div>
   <div class="how-content">
     <p class="eyebrow">// 사용법</p>
@@ -378,7 +396,7 @@ footer { border-top: 1px solid var(--border); padding: 0 48px; }
     <div class="steps">
       <div class="step"><div class="step-n">01</div><div><h4>신체 정보 & 목표 입력</h4><p>키, 몸무게, 나이, 성별과 원하는 목표를 선택합니다. 부상 부위나 식이 제한도 반영됩니다.</p></div></div>
       <div class="step"><div class="step-n">02</div><div><h4>생활습관 패턴 입력</h4><p>직업 활동량, 수면 시간, 식사 패턴, 스트레스 수준을 입력해 더 정밀한 플랜을 만듭니다.</p></div></div>
-      <div class="step"><div class="step-n">03</div><div><h4>AI 플랜 즉시 생성</h4><p>운동·식단·루틴·편의점 추천까지 6개 섹션의 완성된 플랜이 30초 내 생성됩니다.</p></div></div>
+      <div class="step"><div class="step-n">03</div><div><h4>AI 플랜 즉시 생성</h4><p>운동·식단·루틴·편의점·뷰티케어까지 7개 섹션의 완성된 플랜이 30초 내 생성됩니다.</p></div></div>
     </div>
   </div>
 </section>
@@ -418,7 +436,145 @@ footer { border-top: 1px solid var(--border); padding: 0 48px; }
         <div class="field"><label>스트레스 수준</label><div class="slider-row"><span class="s-label">낮음</span><input type="range" id="stress" min="1" max="10" value="5"><div class="s-val" id="stress-out">5</div><span class="s-label">높음</span></div></div>
       </div>
       <div class="form-card full">
-        <div class="form-label"><span>추가 정보 (선택)</span><span class="form-label-num">05</span></div>
+        <div class="form-label"><span>전문 운동인 설정 (선택)</span><span class="form-label-num">05</span></div>
+        <div class="fg fg2" style="margin-bottom:12px">
+          <div class="field">
+            <label>운동인 유형</label>
+            <select id="athlete_type">
+              <option value="">해당 없음 (일반인)</option>
+              <option value="엘리트 선수 (전문 스포츠)">엘리트 선수 (전문 스포츠)</option>
+              <option value="대학 선수 (학교 팀 소속)">대학 선수 (학교 팀 소속)</option>
+              <option value="무용 전공생 (발레/현대무용/한국무용)">무용 전공생</option>
+              <option value="생활체육 동호인 (주 3회 이상 훈련)">생활체육 동호인</option>
+              <option value="퍼스널 트레이너 / 코치">퍼스널 트레이너 / 코치</option>
+              <option value="패션모델 (체형 관리 중심)">패션모델</option>
+              <option value="기타 전문 운동인">기타</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>주 종목 / 전공 종목</label>
+            <select id="main_sport">
+              <option value="">선택 안 함</option>
+              <optgroup label="구기 종목">
+                <option value="축구">축구</option>
+                <option value="농구">농구</option>
+                <option value="배구">배구</option>
+                <option value="야구">야구</option>
+                <option value="테니스">테니스</option>
+              </optgroup>
+              <optgroup label="개인 종목">
+                <option value="육상 (단거리)">육상 (단거리)</option>
+                <option value="육상 (장거리/마라톤)">육상 (장거리/마라톤)</option>
+                <option value="수영">수영</option>
+                <option value="체조">체조</option>
+                <option value="역도/파워리프팅">역도/파워리프팅</option>
+                <option value="복싱/격투기">복싱/격투기</option>
+                <option value="사이클">사이클</option>
+              </optgroup>
+              <optgroup label="무용">
+                <option value="발레">발레</option>
+                <option value="현대무용">현대무용</option>
+                <option value="한국무용">한국무용</option>
+                <option value="스트리트댄스">스트리트댄스</option>
+              </optgroup>
+              <optgroup label="동계/기타">
+                <option value="스키/스노보드">스키/스노보드</option>
+                <option value="골프">골프</option>
+                <option value="크로스핏">크로스핏</option>
+              </optgroup>
+              <optgroup label="기타">
+                <option value="__custom__">기타 (직접 입력)</option>
+              </optgroup>
+            </select>
+            <input type="text" id="main_sport_custom" placeholder="종목 직접 입력" style="margin-top:8px;display:none">
+          </div>
+        </div>
+        <div class="fg fg2" style="margin-bottom:12px">
+          <div class="field">
+            <label>시즌 상태</label>
+            <select id="season_status">
+              <option value="">해당 없음</option>
+              <option value="시즌 중 (경기 기간)">시즌 중 (경기 기간)</option>
+              <option value="시즌 오프 (비경기 기간)">시즌 오프 (비경기 기간)</option>
+              <option value="프리시즌 (시즌 준비)">프리시즌 (시즌 준비)</option>
+              <option value="재활 중">재활 중</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>하루 훈련 시간</label>
+            <select id="train_hours">
+              <option value="">해당 없음</option>
+              <option value="1~2시간">1~2시간</option>
+              <option value="2~4시간">2~4시간</option>
+              <option value="4~6시간 (2부 훈련)">4~6시간 (2부 훈련)</option>
+              <option value="6시간 이상 (전업 선수)">6시간 이상 (전업 선수)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-card full">
+        <div class="form-label"><span>피부 & 미용 (선택)</span><span class="form-label-num">06</span></div>
+        <div class="fg fg3" style="margin-bottom:12px">
+          <div class="field">
+            <label>피부 타입</label>
+            <select id="skin_type">
+              <option value="">선택 안 함</option>
+              <option value="건성">건성</option>
+              <option value="지성">지성</option>
+              <option value="복합성">복합성</option>
+              <option value="민감성">민감성</option>
+              <option value="중성">중성</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>주요 피부 고민</label>
+            <select id="skin_concern">
+              <option value="">선택 안 함</option>
+              <option value="여드름/트러블">여드름/트러블</option>
+              <option value="색소침착/잡티">색소침착/잡티</option>
+              <option value="주름/탄력 저하">주름/탄력 저하</option>
+              <option value="건조함/각질">건조함/각질</option>
+              <option value="모공/피지">모공/피지</option>
+              <option value="다크서클">다크서클</option>
+              <option value="전반적 피부톤 개선">전반적 피부톤 개선</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>음주 빈도</label>
+            <select id="alcohol">
+              <option value="">선택 안 함</option>
+              <option value="거의 안 함">거의 안 함</option>
+              <option value="월 1~2회">월 1~2회</option>
+              <option value="주 1~2회">주 1~2회</option>
+              <option value="주 3회 이상">주 3회 이상</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg fg2">
+          <div class="field">
+            <label>현재 스킨케어 루틴</label>
+            <select id="skincare_routine">
+              <option value="">선택 안 함</option>
+              <option value="거의 없음 (세안만)">거의 없음 (세안만)</option>
+              <option value="기초 (스킨+로션)">기초 (스킨+로션)</option>
+              <option value="중간 (세럼+선크림 포함)">중간 (세럼+선크림 포함)</option>
+              <option value="풀 루틴 (앰플+마스크팩 등)">풀 루틴</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>미용 목표</label>
+            <div class="pill-wrap" id="beauty-pills" style="margin-top:6px">
+              <span class="pill" data-v="피부 개선">피부 개선</span>
+              <span class="pill" data-v="체형 관리">체형 관리</span>
+              <span class="pill" data-v="모발 건강">모발 건강</span>
+              <span class="pill" data-v="안티에이징">안티에이징</span>
+              <span class="pill" data-v="다이어트">다이어트</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-card full">
+        <div class="form-label"><span>추가 정보 (선택)</span><span class="form-label-num">07</span></div>
         <div class="field"><label>특이사항, 생활 패턴, 기타 요청사항</label><textarea id="extra" placeholder="예: 군 전역 후 복학. 오후 6시 이후 운동 가능. 단백질 보충제 복용 중."></textarea></div>
       </div>
     </div>
@@ -492,7 +648,20 @@ async function generate() {
     diet: getPills('diet-pills'),
     stress: document.getElementById('stress').value,
     extra: document.getElementById('extra').value||'없음',
-    isDesk: activity.includes('좌식')
+    isDesk: activity.includes('좌식'),
+    skin_type: document.getElementById('skin_type').value||'',
+    skin_concern: document.getElementById('skin_concern').value||'',
+    alcohol: document.getElementById('alcohol').value||'',
+    skincare: document.getElementById('skincare_routine').value||'',
+    beauty_goals: getPills('beauty-pills'),
+    athlete_type: document.getElementById('athlete_type').value||'',
+    main_sport: (function(){
+      const v = document.getElementById('main_sport').value;
+      if (v === '__custom__') return document.getElementById('main_sport_custom').value || '기타';
+      return v || '';
+    })(),
+    season: document.getElementById('season_status').value||'',
+    train_hours: document.getElementById('train_hours').value||''
   };
 
   const bmi = getBmi(+height, +weight);
@@ -514,6 +683,15 @@ async function generate() {
 식사 패턴: ${d.meal} | 주로 끼니 해결: ${d.meal_place}
 식이 제한: ${d.diet} | 스트레스: ${d.stress}/10
 추가 정보: ${d.extra}
+${d.skin_type ? `피부 타입: ${d.skin_type}` : ''}
+${d.skin_concern ? `피부 고민: ${d.skin_concern}` : ''}
+${d.alcohol ? `음주 빈도: ${d.alcohol}` : ''}
+${d.skincare ? `현재 스킨케어: ${d.skincare}` : ''}
+${d.beauty_goals !== '미선택' ? `미용 목표: ${d.beauty_goals}` : ''}
+${d.athlete_type ? `전문 운동인 유형: ${d.athlete_type}` : ''}
+${d.main_sport ? `주 종목: ${d.main_sport}` : ''}
+${d.season ? `시즌 상태: ${d.season}` : ''}
+${d.train_hours ? `하루 훈련 시간: ${d.train_hours}` : ''}
 
 아래 6개 섹션으로 나누어 작성하세요. 반드시 "===섹션명===" 형식으로 구분하세요.
 
@@ -538,6 +716,19 @@ async function generate() {
 - 점심/간식용 3가지
 - 운동 전후용 3가지
 - 피해야 할 식품 2가지 (이유 포함)
+
+===피부 & 미용 케어===
+피부 타입: ${d.skin_type||'미입력'}, 피부 고민: ${d.skin_concern||'미입력'}, 음주 빈도: ${d.alcohol||'미입력'}, 스킨케어 루틴: ${d.skincare||'미입력'}, 미용 목표: ${d.beauty_goals||'미입력'}.
+위 정보를 기반으로 다음 항목을 올리브영에서 구매 가능한 실제 제품 중심으로 구체적으로 작성하세요:
+- 식단과 피부 연관성 (먹어야 할 음식 / 피해야 할 음식)
+- 운동 전후 스킨케어 루틴 (단계별로)
+- 수면과 피부 재생 관계
+- 올리브영 추천 아침 루틴: 단계별 추천 성분 + 실제 브랜드명/제품명 (예: 코스알엑스 달팽이 에센스, 아누아 어성초 토너 등 올리브영 입점 브랜드 위주)
+- 올리브영 추천 저녁 루틴: 단계별 추천 성분 + 실제 브랜드명/제품명
+- 피부 고민별 집중 케어 제품 3가지 (올리브영 구매 가능, 브랜드+제품명+사용법)
+- 운동인을 위한 특별 관리: 땀 후 즉각 케어, 선크림 추천 (올리브영 제품)
+- 음주가 피부에 미치는 영향 및 관리법
+- 모발 관리 추천 제품 (올리브영 헤어케어 제품 위주)
 
 일반론 없이 위 데이터에 완전히 맞춰 구체적으로 작성하세요.`;
 
@@ -574,13 +765,50 @@ function renderResult(raw, bmi, d) {
     ${d.isDesk?'<div class="bmi-cell"><div class="bmi-cell-label">특이사항</div><div style="font-size:0.8rem;color:#f0c44d;margin-top:4px">좌식 직업 루틴 적용</div></div>':''}
   </div>`;
 
+  // 운동 종류 기반 이미지 선택
+  function getCardImg(key, d) {
+    const sports = (d.sports||'').toLowerCase();
+    const goals = (d.goals||'').toLowerCase();
+    const isWeight = sports.includes('웨이트') || goals.includes('근비대');
+    const isYoga = sports.includes('요가') || sports.includes('필라테스');
+    const isCardio = sports.includes('유산소') || sports.includes('러닝');
+    const isMartial = sports.includes('격투기');
+    const isSwim = sports.includes('수영');
+    const isBall = sports.includes('구기');
+    const isModel = (d.athlete_type||'').includes('모델');
+    const isDance = (d.main_sport||'').includes('무용') || (d.main_sport||'').includes('발레');
+
+    const imgs = {
+      '운동 프로그램': isWeight
+        ? 'photo-1534438327276-14e5300c3a48'
+        : isYoga ? 'photo-1544367567-0f2fcb009e0b'
+        : isCardio ? 'photo-1571008887538-b36bb32f4571'
+        : isMartial ? 'photo-1547941126-3d5322b218b0'
+        : isSwim ? 'photo-1530549387789-4c1017266635'
+        : isBall ? 'photo-1431324155629-1a6deb1dec8d'
+        : isDance ? 'photo-1518611012118-696072aa579a'
+        : isModel ? 'photo-1506629082955-511b1aa562c8'
+        : 'photo-1534438327276-14e5300c3a48',
+      '영양 & 식단': 'photo-1512621776951-a57141f2eefd',
+      '생활습관 루틴': 'photo-1506126613408-eca07ce68773',
+      '수면 최적화': 'photo-1541781774459-bb2af2f05b55',
+      '핵심 분석 & 단계별 목표': 'photo-1551288049-bebda4e38f71',
+      '편의점 식품 추천': 'photo-1604719312566-8912e9c8a213',
+      '피부 & 미용 케어': isModel
+        ? 'photo-1522337360788-8b13dee7a37e'
+        : 'photo-1556228578-8c89e6adf883',
+    };
+    return imgs[key] || 'photo-1534438327276-14e5300c3a48';
+  }
+
   const cardMeta = [
-    {k:'운동 프로그램', c:'', emoji:'🏋️', color:'#d4f53c'},
-    {k:'영양 & 식단', c:'', emoji:'🥗', color:'#d4f53c'},
-    {k:'생활습관 루틴', c:'', emoji:'⏰', color:'#d4f53c'},
-    {k:'수면 최적화', c:'', emoji:'🌙', color:'#d4f53c'},
-    {k:'핵심 분석 & 단계별 목표', c:'full', emoji:'📊', color:'#d4f53c'},
-    {k:'편의점 식품 추천', c:'full cvs', emoji:'🏪', color:'#d4f53c'},
+    {k:'운동 프로그램', c:'', emoji:'🏋️'},
+    {k:'영양 & 식단', c:'', emoji:'🥗'},
+    {k:'생활습관 루틴', c:'', emoji:'⏰'},
+    {k:'수면 최적화', c:'', emoji:'🌙'},
+    {k:'핵심 분석 & 단계별 목표', c:'full', emoji:'📊'},
+    {k:'편의점 식품 추천', c:'full cvs', emoji:'🏪'},
+    {k:'피부 & 미용 케어', c:'full', emoji:'✨'},
   ];
 
   let grid = '<div class="result-grid">';
@@ -589,13 +817,18 @@ function renderResult(raw, bmi, d) {
   } else {
     cardMeta.forEach(({k,c,emoji}) => {
       if (!secs[k]) return;
+      const imgId = getCardImg(k, d);
+      const imgUrl = `https://images.unsplash.com/${imgId}?w=800&q=60`;
       const body = fmtRich(secs[k], emoji);
-      grid += `<div class="r-card ${c}">
-        <div class="r-card-header">
-          <span class="r-card-emoji">${emoji}</span>
-          <h3>${k}</h3>
+      grid += `<div class="r-card ${c}" style="position:relative;overflow:hidden;">
+        <div style="position:absolute;inset:0;background-image:url('${imgUrl}');background-size:cover;background-position:center;opacity:0.07;filter:grayscale(40%);z-index:0;pointer-events:none;"></div>
+        <div style="position:relative;z-index:1;">
+          <div class="r-card-header">
+            <span class="r-card-emoji">${emoji}</span>
+            <h3>${k}</h3>
+          </div>
+          <div class="body">${body}</div>
         </div>
-        <div class="body">${body}</div>
       </div>`;
     });
   }
@@ -616,6 +849,11 @@ function fmtRich(text, emoji) {
 
 function fmt(t) { return esc(t).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/^[-•]\s/gm,'▸ '); }
 function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+document.getElementById('main_sport').addEventListener('change', function() {
+  const custom = document.getElementById('main_sport_custom');
+  custom.style.display = this.value === '__custom__' ? 'block' : 'none';
+});
+
 function resetForm() { document.getElementById('result-section').className=''; document.getElementById('planner').scrollIntoView({behavior:'smooth'}); }
 </script>
 </body>
