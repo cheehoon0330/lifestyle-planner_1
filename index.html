@@ -218,7 +218,11 @@ input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; border-radius
 .r-card { background: var(--bg); padding: 32px; }
 .r-card.full { grid-column: 1 / -1; }
 .r-card.cvs { background: var(--bg2); border-left: 2px solid var(--accent); }
-.r-card h3 { font-family: 'Pretendard', -apple-system, sans-serif; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; color: var(--accent); text-transform: uppercase; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.r-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.r-card-emoji { font-size: 1.4rem; line-height: 1; }
+.r-card h3 { font-family: 'Pretendard', -apple-system, sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; color: var(--accent); text-transform: uppercase; margin: 0; }
+.sec-head { font-family: 'Pretendard', -apple-system, sans-serif; font-size: 0.9rem; font-weight: 700; color: #fff; margin: 14px 0 6px; padding: 6px 12px; background: rgba(212,245,60,0.08); border-left: 2px solid var(--accent); }
+.dot-accent { color: var(--accent); font-size: 0.85rem; }
 .r-card .body { font-family: 'Pretendard', -apple-system, sans-serif; font-size: 0.88rem; line-height: 1.95; color: var(--text2); white-space: pre-wrap; word-break: break-word; }
 .r-card .body strong { color: var(--text); font-weight: 500; }
 .loading { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 80px 0; }
@@ -555,8 +559,13 @@ async function generate() {
 
 function renderResult(raw, bmi, d) {
   const secs = {};
-  [...raw.matchAll(/===(.+?)===\n([\s\S]*?)(?====|$)/g)].forEach(m => { secs[m[1].trim()] = m[2].trim(); });
+  const secPattern = /===([^=]+?)===\s*\n([\s\S]*?)(?=\n===|$)/g;
+  let m2;
+  while ((m2 = secPattern.exec(raw)) !== null) {
+    secs[m2[1].trim()] = m2[2].trim();
+  }
   const sc = d.stress>=7?'#ff3b3b':d.stress>=5?'#f0c44d':'#d4f53c';
+
   const bmiStrip = `<div class="bmi-strip">
     <div class="bmi-cell"><div class="bmi-cell-label">BMI</div><div class="bmi-cell-val">${bmi.val}</div><div class="bmi-cell-sub">${bmi.cat}</div></div>
     <div class="bmi-cell"><div class="bmi-cell-label">목표</div><div style="font-size:0.88rem;color:#fff;margin-top:4px;line-height:1.5">${d.goals}</div></div>
@@ -564,15 +573,45 @@ function renderResult(raw, bmi, d) {
     <div class="bmi-cell"><div class="bmi-cell-label">스트레스</div><div class="bmi-cell-val" style="color:${sc}">${d.stress}<span style="font-size:1rem;color:#666">/10</span></div></div>
     ${d.isDesk?'<div class="bmi-cell"><div class="bmi-cell-label">특이사항</div><div style="font-size:0.8rem;color:#f0c44d;margin-top:4px">좌식 직업 루틴 적용</div></div>':''}
   </div>`;
-  const keys = [{k:'운동 프로그램',c:''},{k:'영양 & 식단',c:''},{k:'생활습관 루틴',c:''},{k:'수면 최적화',c:''},{k:'핵심 분석 & 단계별 목표',c:'full'},{k:'편의점 식품 추천',c:'full cvs'}];
+
+  const cardMeta = [
+    {k:'운동 프로그램', c:'', emoji:'🏋️', color:'#d4f53c'},
+    {k:'영양 & 식단', c:'', emoji:'🥗', color:'#d4f53c'},
+    {k:'생활습관 루틴', c:'', emoji:'⏰', color:'#d4f53c'},
+    {k:'수면 최적화', c:'', emoji:'🌙', color:'#d4f53c'},
+    {k:'핵심 분석 & 단계별 목표', c:'full', emoji:'📊', color:'#d4f53c'},
+    {k:'편의점 식품 추천', c:'full cvs', emoji:'🏪', color:'#d4f53c'},
+  ];
+
   let grid = '<div class="result-grid">';
   if (!Object.keys(secs).length) {
     grid += `<div class="r-card full"><h3>AI 플랜</h3><div class="body">${esc(raw)}</div></div>`;
   } else {
-    keys.forEach(({k,c}) => { if(secs[k]) grid += `<div class="r-card ${c}"><h3>${k}</h3><div class="body">${fmt(secs[k])}</div></div>`; });
+    cardMeta.forEach(({k,c,emoji}) => {
+      if (!secs[k]) return;
+      const body = fmtRich(secs[k], emoji);
+      grid += `<div class="r-card ${c}">
+        <div class="r-card-header">
+          <span class="r-card-emoji">${emoji}</span>
+          <h3>${k}</h3>
+        </div>
+        <div class="body">${body}</div>
+      </div>`;
+    });
   }
   grid += '</div>';
   document.getElementById('result-content').innerHTML = bmiStrip + grid;
+}
+
+function fmtRich(text, emoji) {
+  let t = esc(text);
+  t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  t = t.replace(/^### (.+)$/gm, '<div class="sec-head">$1</div>');
+  t = t.replace(/^## (.+)$/gm, '<div class="sec-head">$1</div>');
+  t = t.replace(/^# (.+)$/gm, '<div class="sec-head">$1</div>');
+  t = t.replace(/^[-•]\s/gm, '<span class="dot-accent">▸</span> ');
+  t = t.replace(/\n/g, '<br>');
+  return t;
 }
 
 function fmt(t) { return esc(t).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/^[-•]\s/gm,'▸ '); }
