@@ -214,7 +214,7 @@ input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; border-radius
 .bmi-cell-label { font-family: 'Pretendard', -apple-system, sans-serif; font-size: 0.58rem; color: var(--text4); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
 .bmi-cell-val { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--accent); line-height: 1; }
 .bmi-cell-sub { font-size: 0.72rem; color: var(--text3); margin-top: 2px; }
-.result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); overflow: hidden; }
+.result-grid { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--border); overflow: hidden; }
 .r-card { background: var(--bg); padding: 32px; }
 .r-card.full { grid-column: 1 / -1 !important; width: 100%; }
 .r-card.cvs { background: var(--bg2); border-left: 2px solid var(--accent); grid-column: 1 / -1 !important; width: 100%; }
@@ -624,23 +624,25 @@ ${d.train_hours ? `하루 훈련 시간: ${d.train_hours}` : ''}
 
 아래 6개 섹션으로 나누어 작성하세요. 반드시 "===섹션명===" 형식으로 구분하세요.
 
+각 섹션은 5줄 이내로 간결하게 작성하세요.
+
 ===운동 프로그램===
-주 분할 스케줄, 요일별 종목·세트·반복수. 부상 고려.
+주 분할 스케줄, 요일별 종목·세트·반복수. 5줄 이내.
 
 ===영양 & 식단===
-목표 칼로리·PFC(g 단위). 끼니별 식단 예시(음식명+양).
+목표 칼로리·PFC(g). 끼니별 식단 예시. 5줄 이내.
 
 ===생활습관 루틴===
-시간대별 핵심 루틴.${d.isDesk?' 좌식 직업: 매 시간 스트레칭 타이밍 포함.':''} 스트레스 관리 3가지.
+시간대별 핵심 루틴.${d.isDesk?' 좌식 직업: 스트레칭 포함.':''} 스트레스 관리 2가지. 5줄 이내.
 
 ===수면 최적화===
-현재 수면 평가. 개선법 3가지.
+현재 수면 평가. 개선법 2가지. 3줄 이내.
 
 ===핵심 분석 & 단계별 목표===
-시급 개선 포인트. 4주/8주/12주 목표. 주의 리스크.
+시급 포인트. 4주/8주/12주 목표. 4줄 이내.
 
 ===편의점 식품 추천===
-편의점(CU/GS25/세븐일레븐) 최적 식품 조합. 아침·간식·운동전후 각 2가지, 피할 것 1가지.
+아침·간식·운동전후 각 2가지, 피할 것 1가지. 5줄 이내.
 
 일반론 없이 위 사용자 데이터에 완전히 맞춰 구체적으로 작성하세요.
 ${d.athlete_type ? '※ 전문 운동인(' + d.athlete_type + ', 종목: ' + (d.main_sport||'미입력') + ')이므로 종목특이성, 에너지 시스템, 주기화 원칙을 반드시 반영하세요.' : ''}`;
@@ -728,7 +730,7 @@ function renderResult(raw, bmi, d) {
       const imgId = getCardImg(k, d);
       const imgUrl = `https://images.unsplash.com/${imgId}?w=800&q=60`;
       const body = fmtRich(secs[k], emoji);
-      grid += `<div class="r-card ${c}" style="position:relative;overflow:hidden;">
+      grid += `<div class="r-card ${c}">
         <div style="position:absolute;inset:0;background-image:url('${imgUrl}');background-size:cover;background-position:center;opacity:0.07;filter:grayscale(40%);z-index:0;pointer-events:none;"></div>
         <div style="position:relative;z-index:1;">
           <div class="r-card-header">
