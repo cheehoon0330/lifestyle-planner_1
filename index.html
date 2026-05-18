@@ -628,7 +628,7 @@ ${d.train_hours ? `하루 훈련 시간: ${d.train_hours}` : ''}
 주 분할 스케줄, 요일별 종목·세트·반복수·휴식시간. 부상 고려.
 
 ===영양 & 식단===
-목표 칼로리·PFC(g 단위). 끼니별 식단 예시(음식명+양).
+목표 칼로리·PFC(g 단위). 끼니별 식단 예시(음식명+양+칼로리).
 
 ===생활습관 루틴===
 시간대별 핵심 루틴.${d.isDesk?' 좌식 직업: 매 시간 스트레칭 타이밍 포함.':''} 스트레스 관리 3가지.
@@ -728,7 +728,7 @@ function renderResult(raw, bmi, d) {
       const imgId = getCardImg(k, d);
       const imgUrl = `https://images.unsplash.com/${imgId}?w=800&q=60`;
       const body = fmtRich(secs[k], emoji);
-      grid += `<div class="r-card ${c}">
+      grid += `<div class="r-card ${c}" style="position:relative;overflow:hidden;">
         <div style="position:absolute;inset:0;background-image:url('${imgUrl}');background-size:cover;background-position:center;opacity:0.07;filter:grayscale(40%);z-index:0;pointer-events:none;"></div>
         <div style="position:relative;z-index:1;">
           <div class="r-card-header">
