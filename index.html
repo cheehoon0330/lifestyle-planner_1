@@ -645,7 +645,7 @@ ${d.train_hours ? `하루 훈련 시간: ${d.train_hours}` : ''}
 아침·간식·운동전후 각 2가지, 피할 것 1가지.
 
 일반론 없이 위 사용자 데이터에 완전히 맞춰 구체적으로 작성하세요.
-${d.athlete_type ? '※ 전문 운동인(' + d.athlete_type + ', 종목: ' + (d.main_sport||'미입력') + ')이므로 종목특이성, 에너지 시스템, 주기화 원칙을 반드시 반영하세요.' : ''}`;
+${d.athlete_type ? '※ 전문 운동인(' + d.athlete_type + ', 종목: ' + (d.main_sport||'미입력') + ') — 종목 특성 반영하되 위 간결 지침 유지.' : ''}`;
 
   try {
     const res = await fetch('/api/chat', {
