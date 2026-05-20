@@ -428,10 +428,17 @@ footer { border-top: 1px solid var(--border); padding: 0 48px; }
       </div>
       <div class="form-card">
         <div class="form-label"><span>생활 & 식습관</span><span class="form-label-num">04</span></div>
-        <div class="fg fg2" style="margin-bottom:12px"><div class="field"><label>직업 / 활동량</label><select id="activity"><option value="">선택</option><option value="좌식 직업 (하루 대부분 앉아서 근무)">좌식 직업</option><option value="가벼운 활동">가벼운 활동</option><option value="중등도 활동">중등도 활동</option><option value="고강도 활동 (육체 노동)">고강도 활동</option><option value="학생 (수업+이동 혼합)">학생</option></select></div><div class="field"><label>평균 수면 시간</label><select id="sleep"><option value="">선택</option><option>5시간 미만</option><option>5~6시간</option><option>6~7시간</option><option>7~8시간</option><option>8시간 이상</option></select></div></div>
+        <div class="fg fg2" style="margin-bottom:12px"><div class="field"><label>직업 / 활동량</label><select id="activity">
+              <option value="">선택</option>
+              <option value="좌식 직업 (하루 대부분 앉아있음)">매우 낮음 — 하루 대부분 앉아서 생활 (사무직·재택·수업 중심)</option>
+              <option value="가벼운 활동 (하루 1~2시간 이동·서있음)">낮음 — 하루 1~2시간 이동·서있음 (일반 학생·가벼운 외근)</option>
+              <option value="보통 활동 (하루 3~5시간 이동·서있음)">보통 — 하루 3~5시간 이동·서있음 (서비스직·영업·현장)</option>
+              <option value="활동적 (하루 대부분 서서 이동, 육체 노동)">높음 — 하루 대부분 서서 이동 or 육체 노동 (건설·배달·체육교사)</option>
+              <option value="매우 활동적 (하루 2회 이상 훈련, 전업 선수)">매우 높음 — 하루 2회 이상 훈련 or 전업 운동선수</option>
+            </select></div><div class="field"><label>평균 수면 시간</label><select id="sleep"><option value="">선택</option><option>5시간 미만</option><option>5~6시간</option><option>6~7시간</option><option>7~8시간</option><option>8시간 이상</option></select></div></div>
         <div class="fg fg2" style="margin-bottom:12px"><div class="field"><label>식사 패턴</label><select id="meal_pat"><option value="">선택</option><option value="하루 1~2끼">하루 1~2끼</option><option value="하루 3끼">하루 3끼</option><option value="4~5끼 소분">4~5끼 소분</option><option value="불규칙">불규칙</option></select></div><div class="field"><label>주로 끼니 해결</label><select id="meal_place"><option value="">선택</option><option value="직접 요리">직접 요리</option><option value="편의점 자주 이용">편의점 자주</option><option value="외식 위주">외식 위주</option><option value="혼합">혼합</option></select></div></div>
         <div class="field" style="margin-bottom:12px"><label>식이 제한</label><div class="pill-wrap" id="diet-pills"><span class="pill" data-v="없음">없음</span><span class="pill" data-v="유제품 제한">유제품</span><span class="pill" data-v="채식">채식</span><span class="pill" data-v="비건">비건</span><span class="pill" data-v="글루텐 프리">글루텐 프리</span><span class="pill" data-v="해산물 알레르기">해산물</span></div></div>
-        <div class="field"><label>스트레스 수준</label><div class="slider-row"><span class="s-label">낮음</span><input type="range" id="stress" min="1" max="10" value="5"><div class="s-val" id="stress-out">5</div><span class="s-label">높음</span></div></div>
+        <div class="field"><label>스트레스 수준 <span style="font-size:0.75rem;color:#666;font-weight:400">(1~2: 여유로움 · 3~4: 약간 있음 · 5~6: 보통 · 7~8: 높음 · 9~10: 극심함)</span></label><div class="slider-row"><span class="s-label">1</span><input type="range" id="stress" min="1" max="10" value="5"><div class="s-val" id="stress-out">5</div><span class="s-label">10</span></div></div>
       </div>
       <div class="form-card full">
         <div class="form-label"><span>전문 운동인 설정 (선택)</span><span class="form-label-num">05</span></div>
